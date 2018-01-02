@@ -2,12 +2,15 @@ package com.fuzple.headup;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 /**
@@ -16,11 +19,19 @@ import android.widget.Toast;
 
 public class main extends AppCompatActivity {
 
+    Button btn;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         checkPermission();
-
+        btn = (Button)findViewById(R.id.move);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(main.this, DigitalClockActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -44,7 +55,7 @@ public class main extends AppCompatActivity {
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED || checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED) {
 
             // Should we show an explanation?
-            if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)        ) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)       ) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 
                 dialog.setTitle("권한이 필요합니다.")
@@ -54,7 +65,7 @@ public class main extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+                                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,}, 0);
                                 }
                             }
                         })
@@ -66,11 +77,11 @@ public class main extends AppCompatActivity {
                         .create()
                         .show();
             }
-            // Explain to the user why we need to write the permission.
+            else
+            {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+            }
             Toast.makeText(this, "location information", Toast.LENGTH_SHORT).show();
-
-            // MY_PERMISSION_REQUEST_STORAGE is an
-            // app-defined int constant
         } else {
             // 다음 부분은 항상 허용일 경우에 해당이 됩니다.
             Toast.makeText(this, "location information OK", Toast.LENGTH_SHORT).show();
@@ -80,13 +91,13 @@ public class main extends AppCompatActivity {
         {
 
             // Should we show an explanation?
-            if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 // Explain to the user why we need to write the permission.
                 AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 
                 dialog.setTitle("권한이 필요합니다.")
 
-                        .setMessage("이 기능을 사용하기 위해서는 단말기의 gps 권한이 필요합니다. 계속하시겠습니까?")
+                        .setMessage("이 기능을 사용하기 위해서는 단말기의 storage 권한이 필요합니다. 계속하시겠습니까?")
                         .setCancelable(false)
 
                         .setPositiveButton("네", new DialogInterface.OnClickListener() {
@@ -104,6 +115,10 @@ public class main extends AppCompatActivity {
                         })
                         .create()
                         .show();
+            }
+            else
+            {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
             Toast.makeText(this, "Read/Write external storage", Toast.LENGTH_SHORT).show();
             // MY_PERMISSION_REQUEST_STORAGE is an
