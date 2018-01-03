@@ -4,8 +4,10 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,10 +21,13 @@ import android.widget.Toast;
 
 public class main extends AppCompatActivity {
 
+    LocationManager locationManager;
     Button btn;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
         checkPermission();
         btn = (Button)findViewById(R.id.move);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -52,9 +57,23 @@ public class main extends AppCompatActivity {
     }
 
     private void checkPermission() {
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            //GPS 설정화면으로 이동
+            Toast.makeText(this, "gps 를 켜주세요", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            startActivity(intent);
+
+        }
+        else
+        {
+            Toast.makeText(this, "gps ok", Toast.LENGTH_SHORT).show();
+        }
+
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED || checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED) {
 
             // Should we show an explanation?
+
             if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)       ) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 

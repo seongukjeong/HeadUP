@@ -175,6 +175,7 @@ public class al_fragment extends Fragment {
                 for (int i = 0; i < MainActivity.adapter.getCount()-1; i++)
                 {
                     Listviewitem l_t = (Listviewitem) MainActivity.adapter.getItem(i);
+                    l_t.setSwitch(((Listviewitem) MainActivity.adapter.getItem(i)).getSwitch());
 
                     if(lt.getim() > l_t.getim())
                     {
@@ -223,6 +224,7 @@ public class al_fragment extends Fragment {
                     {
                         md.addItem(l_t.getMemo(),l_t.getTime(),l_t.getDay(),l_t.getAp(),l_t.getimimage(),l_t.getim());
                     }
+                    md.notifyDataSetChanged();
                 }
 
                 md.addItem(lt.getMemo(),lt.getTime(),lt.getDay(),lt.getAp(),lt.getimimage(),lt.getim());

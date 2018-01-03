@@ -120,7 +120,6 @@ public class DigitalClockActivity extends AppCompatActivity {
                             wi.setText("위도 : " + task.getResult().getLatitude());
                             gi.setText("경도 : " + task.getResult().getLongitude());
                             updateWeatherData(task.getResult().getLatitude(), task.getResult().getLongitude());
-                            
                         }
                     }
                 });

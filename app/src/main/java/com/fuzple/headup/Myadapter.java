@@ -37,8 +37,9 @@ public class Myadapter extends BaseAdapter {
 
     Switch sw;
     Listviewitem item;
+    int pos;
     public View getView(int position, View convertView, ViewGroup parent) {
-        final int pos = position;
+         pos = position;
         final Context context = parent.getContext();
 
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
@@ -56,16 +57,23 @@ public class Myadapter extends BaseAdapter {
         TextView tv3 = (TextView) convertView.findViewById(R.id.day);
         TextView ap = (TextView) convertView.findViewById(R.id.ap);
         sw = (Switch)convertView.findViewById(R.id.list_switch);
+        item = (Listviewitem)getItem(position);
+        sw.setTag(item);
+
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
+                Listviewitem lv = (Listviewitem)v.getTag();
+
                 if(isChecked==true)
                 {
-                    item.setSwitch(true);
+                    lv.setSwitch(true);
+                    notifyDataSetChanged();
                 }
                 else
                 {
-                    item.setSwitch(false);
+                    lv.setSwitch(false);
+                    notifyDataSetChanged();
                 }
             }
         });
@@ -79,6 +87,7 @@ public class Myadapter extends BaseAdapter {
         ap.setText(listViewItem.getAp());
         iv2.setBackgroundColor(listViewItem.getimimage());
         sw.setChecked(listViewItem.getSwitch());
+
 
         return convertView;
     }
@@ -115,7 +124,8 @@ public class Myadapter extends BaseAdapter {
     }
 
     @Override
-    public void notifyDataSetChanged() {
+    public void notifyDataSetChanged()
+    {
         super.notifyDataSetChanged();
     }
 }
