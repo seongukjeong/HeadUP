@@ -22,21 +22,32 @@ import android.widget.Toast;
 public class main extends AppCompatActivity {
 
     LocationManager locationManager;
-    Button btn;
+    Button digital_btn,alarm_btn;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
         checkPermission();
-        btn = (Button)findViewById(R.id.move);
-        btn.setOnClickListener(new View.OnClickListener() {
+        digital_btn = (Button)findViewById(R.id.digital);
+        alarm_btn = (Button)findViewById(R.id.alarm);
+
+        digital_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(main.this, DigitalClockActivity.class);
                 startActivity(intent);
             }
         });
+
+        alarm_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(main.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 

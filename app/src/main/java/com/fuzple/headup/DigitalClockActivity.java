@@ -1,6 +1,7 @@
 package com.fuzple.headup;
 
 import android.Manifest;
+import android.app.FragmentTransaction;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
